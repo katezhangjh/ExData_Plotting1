@@ -1,0 +1,17 @@
+My first markdown file - Activity Analysis Report
+========================================================
+
+This report is to summarize various statistics and explore data pattern via graphs based on given activity data. I am going to load data
+
+```{r echo=TRUE}
+activity<-read.csv("activity.csv",header=T,sep=",",stringsAsFactors=F)
+```
+
+Once data is loaded,I will make a histogram of the total number of steps taken each day
+
+```{r echo=TRUE}
+activity.total<-data.frame(tapply(activity$steps,(as.factor(activity$date)),function(x)sum(x,na.rm=T)))                             
+activity.total$date<-as.character(rownames(activity.total))
+colnames(activity.total)<-c("totalsteps","date")
+ggplot(activity.total,aes(x=as.Date(date),y=totalsteps))+geom_bar(stat="identity")
+```
